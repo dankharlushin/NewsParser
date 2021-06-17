@@ -10,6 +10,5 @@ import java.util.List;
 @Repository
 public interface NewsRepository extends JpaRepository<News, Long> {
 
-    /*@Query("SELECT n FROM News WHERE n.id = ?1")
-    List<News> findNewsById(Long id);*/
+    boolean existsNewsByTitle(String title);
 }

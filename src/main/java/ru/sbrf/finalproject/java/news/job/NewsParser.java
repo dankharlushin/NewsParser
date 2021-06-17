@@ -13,7 +13,7 @@ import ru.sbrf.finalproject.java.news.service.NewsService;
 import java.io.IOException;
 
 @Component
-public class Parser {
+public class NewsParser {
 
     @Autowired
     NewsService newsService;

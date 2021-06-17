@@ -8,7 +8,7 @@ import ru.sbrf.finalproject.java.news.repository.NewsRepository;
 import java.util.List;
 
 @Service
-public class NewsServiceImpl  implements NewsService{
+public class NewsServiceImpl  implements NewsService {
 
     @Autowired
     private NewsRepository repository;
@@ -20,14 +20,7 @@ public class NewsServiceImpl  implements NewsService{
 
     @Override
     public boolean isExist(String newsTitle) {
-        List<News> existingNews = repository.findAll();
-        for (News news: existingNews) {
-            if (newsTitle.equals(news.getTitle())) {
-                return true;
-            }
-        }
-
-        return false;
+        return repository.existsNewsByTitle(newsTitle);
     }
 
     @Override
