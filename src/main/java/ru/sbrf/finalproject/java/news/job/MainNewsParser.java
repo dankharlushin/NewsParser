@@ -13,7 +13,7 @@ import ru.sbrf.finalproject.java.news.service.NewsService;
 import java.io.IOException;
 
 @Component
-public class NewsParser {
+public class MainNewsParser {
 
     @Autowired
     NewsService newsService;
@@ -33,9 +33,10 @@ public class NewsParser {
             for (Element el : news) {
                 String newsTitle = el.ownText();
                 if (!newsService.isExist(newsTitle)) {
-                    News obj = new News();
-                    obj.setTitle(newsTitle);
-                    newsService.save(obj);
+                    News mainNews = new News();
+                    mainNews.setTitle(newsTitle);
+                    mainNews.setSection("Главное");
+                    newsService.save(mainNews);
                 }
             }
         } catch (IOException e) {
