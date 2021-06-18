@@ -27,4 +27,9 @@ public class NewsServiceImpl  implements NewsService {
     public List<News> getAllNews() {
         return repository.findAll();
     }
+
+    @Override
+    public List<News> getNewsFromSection(String section) {
+        return repository.getNewsBySection(section);
+    }
 }

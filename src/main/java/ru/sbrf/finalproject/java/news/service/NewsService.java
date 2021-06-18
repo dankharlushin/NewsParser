@@ -10,5 +10,6 @@ public interface NewsService {
     void save(News news);
     boolean isExist(String newsTitle);
     List<News> getAllNews();
+    List<News> getNewsFromSection(String section);
 
 }

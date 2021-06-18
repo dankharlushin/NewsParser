@@ -11,4 +11,6 @@ import java.util.List;
 public interface NewsRepository extends JpaRepository<News, Long> {
 
     boolean existsNewsByTitle(String title);
+
+    List<News> getNewsBySection(String section);
 }
