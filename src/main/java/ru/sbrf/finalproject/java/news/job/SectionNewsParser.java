@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import ru.sbrf.finalproject.java.news.model.News;
-import ru.sbrf.finalproject.java.news.service.NewsService;
+import ru.sbrf.finalproject.java.news.service.news.NewsService;
 
 import java.io.IOException;
 import java.util.Arrays;

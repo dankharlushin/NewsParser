@@ -1,4 +1,4 @@
-package ru.sbrf.finalproject.java.news.service;
+package ru.sbrf.finalproject.java.news.service.news;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
