@@ -40,13 +40,16 @@ public class SectionNewsParser {
                         .referrer("https://google.com").proxy("proxy.kpfu.ru", 8080)
                         .get();
 
-                Elements news = doc.getElementsByClass("list-item__title color-font-hover-only");
+                Elements news = doc.getElementsByClass("list-item");
                 for (Element el: news) {
-                    String newsTitle = el.ownText();
+                    String newsTitle = el.getElementsByClass("list-item__title color-font-hover-only")
+                            .first()
+                            .ownText();
                     if (!newsService.isExist(newsTitle)) {
                         News sectionNews = new News();
                         sectionNews.setTitle(newsTitle);
                         sectionNews.setSection(section);
+                        sectionNews.setUrl(el.getElementsByTag("a").first().attr("href"));
                         newsService.save(sectionNews);
                     }
                 }

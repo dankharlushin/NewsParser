@@ -29,13 +29,14 @@ public class MainNewsParser {
                     .referrer("https://google.com").proxy("proxy.kpfu.ru", 8080)
                     .get();
 
-            Elements news = doc.getElementsByClass("main__feed__title");
+            Elements news = doc.getElementsByClass("main__feed js-main-reload-item");
             for (Element el : news) {
-                String newsTitle = el.ownText();
+                String newsTitle = el.getElementsByClass("main__feed__title").first().ownText();
                 if (!newsService.isExist(newsTitle)) {
                     News mainNews = new News();
                     mainNews.setTitle(newsTitle);
                     mainNews.setSection("Главное");
+                    mainNews.setUrl(el.getElementsByTag("a").first().attr("href"));
                     newsService.save(mainNews);
                 }
             }
