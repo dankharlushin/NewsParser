@@ -1,9 +1,9 @@
-package ru.sbrf.finalproject.java.news.service.news;
+package ru.sbrf.finalproject.java.news.services.news;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.sbrf.finalproject.java.news.model.News;
-import ru.sbrf.finalproject.java.news.repository.NewsRepository;
+import ru.sbrf.finalproject.java.news.models.News;
+import ru.sbrf.finalproject.java.news.repositories.NewsRepository;
 
 import java.util.List;
 

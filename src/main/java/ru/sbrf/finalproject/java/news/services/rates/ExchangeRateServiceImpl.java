@@ -1,9 +1,9 @@
-package ru.sbrf.finalproject.java.news.service.rates;
+package ru.sbrf.finalproject.java.news.services.rates;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.sbrf.finalproject.java.news.model.ExchangeRate;
-import ru.sbrf.finalproject.java.news.repository.ExchangeRateRepository;
+import ru.sbrf.finalproject.java.news.models.ExchangeRate;
+import ru.sbrf.finalproject.java.news.repositories.ExchangeRateRepository;
 
 import java.util.List;
 

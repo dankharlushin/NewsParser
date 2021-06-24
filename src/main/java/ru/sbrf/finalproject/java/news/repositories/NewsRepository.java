@@ -1,9 +1,8 @@
-package ru.sbrf.finalproject.java.news.repository;
+package ru.sbrf.finalproject.java.news.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import ru.sbrf.finalproject.java.news.model.News;
+import ru.sbrf.finalproject.java.news.models.News;
 
 import java.util.List;
 

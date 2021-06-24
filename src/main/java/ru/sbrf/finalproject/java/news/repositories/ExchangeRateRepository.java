@@ -1,12 +1,8 @@
-package ru.sbrf.finalproject.java.news.repository;
+package ru.sbrf.finalproject.java.news.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import ru.sbrf.finalproject.java.news.model.ExchangeRate;
-
-import java.util.Currency;
-import java.util.List;
+import ru.sbrf.finalproject.java.news.models.ExchangeRate;
 
 @Repository
 public interface ExchangeRateRepository extends JpaRepository<ExchangeRate, Long> {

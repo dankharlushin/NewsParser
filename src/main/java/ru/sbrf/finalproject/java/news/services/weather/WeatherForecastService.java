@@ -1,10 +1,9 @@
-package ru.sbrf.finalproject.java.news.service.weather;
+package ru.sbrf.finalproject.java.news.services.weather;
 
 import org.springframework.stereotype.Service;
-import ru.sbrf.finalproject.java.news.model.WeatherForecast;
+import ru.sbrf.finalproject.java.news.models.WeatherForecast;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Service
 public interface WeatherForecastService {

@@ -1,4 +1,4 @@
-package ru.sbrf.finalproject.java.news.job;
+package ru.sbrf.finalproject.java.news.jobs;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -6,8 +6,8 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import ru.sbrf.finalproject.java.news.model.ExchangeRate;
-import ru.sbrf.finalproject.java.news.service.rates.ExchangeRateService;
+import ru.sbrf.finalproject.java.news.models.ExchangeRate;
+import ru.sbrf.finalproject.java.news.services.rates.ExchangeRateService;
 
 import java.io.IOException;
 

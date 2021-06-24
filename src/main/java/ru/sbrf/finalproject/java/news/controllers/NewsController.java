@@ -1,14 +1,13 @@
 package ru.sbrf.finalproject.java.news.controllers;
 
-import org.apache.el.stream.Stream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ru.sbrf.finalproject.java.news.model.ExchangeRate;
-import ru.sbrf.finalproject.java.news.model.News;
-import ru.sbrf.finalproject.java.news.model.WeatherForecast;
-import ru.sbrf.finalproject.java.news.service.rates.ExchangeRateService;
-import ru.sbrf.finalproject.java.news.service.news.NewsService;
-import ru.sbrf.finalproject.java.news.service.weather.WeatherForecastService;
+import ru.sbrf.finalproject.java.news.models.ExchangeRate;
+import ru.sbrf.finalproject.java.news.models.News;
+import ru.sbrf.finalproject.java.news.models.WeatherForecast;
+import ru.sbrf.finalproject.java.news.services.rates.ExchangeRateService;
+import ru.sbrf.finalproject.java.news.services.news.NewsService;
+import ru.sbrf.finalproject.java.news.services.weather.WeatherForecastService;
 
 import java.time.LocalDate;
 import java.util.Arrays;

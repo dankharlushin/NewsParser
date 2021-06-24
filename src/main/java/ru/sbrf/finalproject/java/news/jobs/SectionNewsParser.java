@@ -1,4 +1,4 @@
-package ru.sbrf.finalproject.java.news.job;
+package ru.sbrf.finalproject.java.news.jobs;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -7,8 +7,9 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import ru.sbrf.finalproject.java.news.model.News;
-import ru.sbrf.finalproject.java.news.service.news.NewsService;
+import ru.sbrf.finalproject.java.news.models.News;
+import ru.sbrf.finalproject.java.news.services.news.NewsService;
+import ru.sbrf.finalproject.java.news.urlcontainer.UrlContainer;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -26,10 +27,16 @@ public class SectionNewsParser {
     @Autowired
     NewsService newsService;
 
+    @Autowired
+    UrlContainer urlContainer;
+
 
     @Scheduled(fixedDelay = 10000)
     public void parseNewSectionNews() {
-        List<String> urls = Arrays.asList(politicSectionUrl, economicSectionUrl, societySectionUrl, incidentsSectionUrl);
+        List<String> urls = Arrays.asList(politicSectionUrl,
+                economicSectionUrl,
+                societySectionUrl,
+                incidentsSectionUrl);
 
         for (String url: urls) {
             String section = SectionNewsParser.getSection(url);

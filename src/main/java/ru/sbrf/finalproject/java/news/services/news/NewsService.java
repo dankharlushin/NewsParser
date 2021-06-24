@@ -1,7 +1,7 @@
-package ru.sbrf.finalproject.java.news.service.news;
+package ru.sbrf.finalproject.java.news.services.news;
 
 import org.springframework.stereotype.Service;
-import ru.sbrf.finalproject.java.news.model.News;
+import ru.sbrf.finalproject.java.news.models.News;
 
 import java.util.List;
 

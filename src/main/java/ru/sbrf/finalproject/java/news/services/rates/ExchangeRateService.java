@@ -1,7 +1,7 @@
-package ru.sbrf.finalproject.java.news.service.rates;
+package ru.sbrf.finalproject.java.news.services.rates;
 
 import org.springframework.stereotype.Service;
-import ru.sbrf.finalproject.java.news.model.ExchangeRate;
+import ru.sbrf.finalproject.java.news.models.ExchangeRate;
 
 import java.util.List;
 

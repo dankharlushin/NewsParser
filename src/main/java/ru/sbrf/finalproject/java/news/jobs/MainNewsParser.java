@@ -1,4 +1,4 @@
-package ru.sbrf.finalproject.java.news.job;
+package ru.sbrf.finalproject.java.news.jobs;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -7,23 +7,29 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import ru.sbrf.finalproject.java.news.model.News;
-import ru.sbrf.finalproject.java.news.service.news.NewsService;
+import ru.sbrf.finalproject.java.news.models.News;
+import ru.sbrf.finalproject.java.news.services.news.NewsService;
+import ru.sbrf.finalproject.java.news.urlcontainer.UrlContainer;
 
 import java.io.IOException;
 
 @Component
 public class MainNewsParser {
 
+    private static String mainNewsUrl = "https://rt.rbc.ru/";
+
     @Autowired
-    NewsService newsService;
+    private NewsService newsService;
+
+    @Autowired
+    private UrlContainer urlContainer;
 
     @Scheduled(fixedDelay = 10000)
     public void parseNewNews() {
-        String url = "https://rt.rbc.ru/";
+        //String url = urlContainer.getUrl("mainNewsUrl");
 
         try {
-            Document doc = Jsoup.connect(url)
+            Document doc = Jsoup.connect(mainNewsUrl)
                     .userAgent("Chrome")
                     .timeout(5000)
                     .referrer("https://google.com").proxy("proxy.kpfu.ru", 8080)

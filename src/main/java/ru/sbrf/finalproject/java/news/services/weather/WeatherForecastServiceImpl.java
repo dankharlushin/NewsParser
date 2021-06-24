@@ -1,4 +1,4 @@
-package ru.sbrf.finalproject.java.news.service.weather;
+package ru.sbrf.finalproject.java.news.services.weather;
 
 import com.ibm.icu.text.Transliterator;
 import org.jsoup.Jsoup;
@@ -7,8 +7,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.sbrf.finalproject.java.news.model.WeatherForecast;
-import ru.sbrf.finalproject.java.news.repository.WeatherForecastRepository;
+import ru.sbrf.finalproject.java.news.models.WeatherForecast;
+import ru.sbrf.finalproject.java.news.repositories.WeatherForecastRepository;
 
 import java.io.IOException;
 import java.time.LocalDate;
