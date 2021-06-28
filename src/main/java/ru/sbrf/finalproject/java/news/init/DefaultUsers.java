@@ -18,14 +18,12 @@ public class DefaultUsers implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        User user = new User();
-        user.setLogin("1");
-        user.setPassword(passwordEncoder.encode("1"));
-        user.setEmail("test@mail.com");
-        user.setEnabled(true);
-        user.setRole("Admin");
-        if (!userRepository.existsById(1L)) {
+            User user = new User();
+            user.setLogin("1234");
+            user.setPassword(passwordEncoder.encode("1234"));
+            user.setEmail("test@mail.com");
+            user.setEnabled(true);
+            user.setRole("Admin");
             userRepository.save(user);
-        }
     }
 }

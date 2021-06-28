@@ -7,17 +7,21 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.sbrf.finalproject.java.news.exceptions.CityNotFoundException;
+import ru.sbrf.finalproject.java.news.exceptions.NotSupportedDateException;
 import ru.sbrf.finalproject.java.news.models.WeatherForecast;
 import ru.sbrf.finalproject.java.news.repositories.WeatherForecastRepository;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.time.LocalDate;
 import java.util.Locale;
 
 @Service
 public class WeatherForecastServiceImpl implements WeatherForecastService {
 
-    //public static final String moscowUrl =
+
     public static final String weatherUrl = "https://yandex.ru/pogoda/";
 
     @Autowired
@@ -25,43 +29,48 @@ public class WeatherForecastServiceImpl implements WeatherForecastService {
 
 
     @Override
-    public WeatherForecast getForecast(String city, LocalDate date) {
+    public WeatherForecast getForecast(String city, LocalDate date) throws CityNotFoundException {
         String url = WeatherForecastServiceImpl.getUrlForCity(city);
         WeatherForecast forecast = new WeatherForecast();
-        forecast.setCity(city);
-        forecast.setDate(date);
         try {
-            Document doc = Jsoup.connect(url)
-                    .userAgent("Chrome")
-                    .timeout(5000)
-                    .referrer("https://google.com").proxy("proxy.kpfu.ru", 8080)
-                    .get();
-            Elements elements = doc.getElementsByClass("card");
-            for (Element el: elements) {
-                if (el.getElementsByAttribute("data-anchor").size() != 0) {
-                    String dataAnchor = el.getElementsByAttribute("data-anchor")
-                            .first()
-                            .getElementsByClass("forecast-details__day-number")
-                            .first()
-                            .ownText();
-                    if (dataAnchor.equals(String.valueOf(date.getDayOfMonth()))) {
-                        Element table = el.getElementsByClass("weather-table__body").first();
-                        Element row = table.getElementsByClass("weather-table__row").get(1);
-                        forecast.setTemperature(row
-                                .getElementsByClass("temp__value temp__value_with-unit")
+            forecast.setCity(city);
+            forecast.setDate(date);
+            try {
+                Document doc = Jsoup.connect(url)
+                        .userAgent("Chrome")
+                        .timeout(5000)
+                        .referrer("https://google.com").proxy("proxy.kpfu.ru", 8080)
+                        .get();
+                Elements elements = doc.getElementsByClass("card");
+                for (Element el: elements) {
+                    if (el.getElementsByAttribute("data-anchor").size() != 0) {
+                        String dataAnchor = el.getElementsByAttribute("data-anchor")
                                 .first()
-                                .ownText());
-                        forecast.setWeather(row
-                                .getElementsByClass("weather-table__body-cell weather-table__body-cell_type_condition")
+                                .getElementsByClass("forecast-details__day-number")
                                 .first()
-                                .ownText());
-                        break;
+                                .ownText();
+                        if (dataAnchor.equals(String.valueOf(date.getDayOfMonth()))) {
+                            Element table = el.getElementsByClass("weather-table__body").first();
+                            Element row = table.getElementsByClass("weather-table__row").get(1);
+                            forecast.setTemperature(row
+                                    .getElementsByClass("temp__value temp__value_with-unit")
+                                    .first()
+                                    .ownText());
+                            forecast.setWeather(row
+                                    .getElementsByClass("weather-table__body-cell weather-table__body-cell_type_condition")
+                                    .first()
+                                    .ownText());
+                            break;
+                        }
                     }
                 }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
+        } catch (NotSupportedDateException e) {
             e.printStackTrace();
         }
+
         return updateForecast(forecast);
     }
 
@@ -88,7 +97,7 @@ public class WeatherForecastServiceImpl implements WeatherForecastService {
                 break;
             default:
                 var CYRILLIC_TO_LATIN = "Russian-Latin/BGN";
-                Transliterator toLatinTrans = Transliterator.getInstance(CYRILLIC_TO_LATIN);
+                //Transliterator toLatinTrans = Transliterator.getInstance(CYRILLIC_TO_LATIN);
                 String result = transliterate(city);
                 url = WeatherForecastServiceImpl.weatherUrl + result.toLowerCase(Locale.ROOT) + "/details"; //add translit
                 break;

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import ru.sbrf.finalproject.java.news.exceptions.NotSupportedDateException;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,4 +34,13 @@ public class WeatherForecast {
 
     private String weather;
 
+    public void setDate(LocalDate date) throws NotSupportedDateException {
+        if (!date.isAfter(LocalDate.now().plusDays(9)) &&
+        !date.isBefore(LocalDate.now())) {
+            this.date = date;
+        }
+        else {
+            throw new NotSupportedDateException("Not supported date");
+        }
+    }
 }
