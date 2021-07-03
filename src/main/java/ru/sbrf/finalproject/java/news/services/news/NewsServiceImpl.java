@@ -1,14 +1,14 @@
-package ru.sbrf.finalproject.java.news.service;
+package ru.sbrf.finalproject.java.news.services.news;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.sbrf.finalproject.java.news.model.News;
-import ru.sbrf.finalproject.java.news.repository.NewsRepository;
+import ru.sbrf.finalproject.java.news.models.News;
+import ru.sbrf.finalproject.java.news.repositories.NewsRepository;
 
 import java.util.List;
 
 @Service
-public class NewsServiceImpl  implements NewsService{
+public class NewsServiceImpl  implements NewsService {
 
     @Autowired
     private NewsRepository repository;
@@ -20,18 +20,16 @@ public class NewsServiceImpl  implements NewsService{
 
     @Override
     public boolean isExist(String newsTitle) {
-        List<News> existingNews = repository.findAll();
-        for (News news: existingNews) {
-            if (newsTitle.equals(news.getTitle())) {
-                return true;
-            }
-        }
-
-        return false;
+        return repository.existsNewsByTitle(newsTitle);
     }
 
     @Override
     public List<News> getAllNews() {
         return repository.findAll();
+    }
+
+    @Override
+    public List<News> getNewsFromSection(String section) {
+        return repository.getNewsBySection(section);
     }
 }

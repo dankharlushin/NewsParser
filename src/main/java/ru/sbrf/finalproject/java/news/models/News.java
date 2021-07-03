@@ -1,5 +1,6 @@
-package ru.sbrf.finalproject.java.news.model;
+package ru.sbrf.finalproject.java.news.models;
 
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,5 +19,14 @@ public class News {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
+    @Column
     private String title;
+
+    @Column
+    private String section;
+
+    @NotNull
+    @Column
+    private String url;
 }
