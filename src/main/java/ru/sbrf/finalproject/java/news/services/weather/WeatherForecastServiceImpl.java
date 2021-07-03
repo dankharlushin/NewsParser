@@ -25,21 +25,21 @@ public class WeatherForecastServiceImpl implements WeatherForecastService {
     public static final String weatherUrl = "https://yandex.ru/pogoda/";
 
     @Autowired
-    WeatherForecastRepository weatherForecastRepository;
+    private WeatherForecastRepository weatherForecastRepository;
+
 
 
     @Override
-    public WeatherForecast getForecast(String city, LocalDate date) throws CityNotFoundException {
+    public WeatherForecast getForecast(String city, LocalDate date) throws CityNotFoundException, NotSupportedDateException {
         String url = WeatherForecastServiceImpl.getUrlForCity(city);
         WeatherForecast forecast = new WeatherForecast();
-        try {
             forecast.setCity(city);
             forecast.setDate(date);
             try {
                 Document doc = Jsoup.connect(url)
                         .userAgent("Chrome")
                         .timeout(5000)
-                        .referrer("https://google.com").proxy("proxy.kpfu.ru", 8080)
+                        .referrer("https://google.com")//.proxy("proxy.kpfu.ru", 8080)
                         .get();
                 Elements elements = doc.getElementsByClass("card");
                 for (Element el: elements) {
@@ -65,11 +65,8 @@ public class WeatherForecastServiceImpl implements WeatherForecastService {
                     }
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new CityNotFoundException();
             }
-        } catch (NotSupportedDateException e) {
-            e.printStackTrace();
-        }
 
         return updateForecast(forecast);
     }

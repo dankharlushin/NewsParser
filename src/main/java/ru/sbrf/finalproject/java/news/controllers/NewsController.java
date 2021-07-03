@@ -2,6 +2,7 @@ package ru.sbrf.finalproject.java.news.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import ru.sbrf.finalproject.java.news.dto.NewsDTO;
 import ru.sbrf.finalproject.java.news.exceptions.CityNotFoundException;
 import ru.sbrf.finalproject.java.news.models.ExchangeRate;
 import ru.sbrf.finalproject.java.news.models.News;
@@ -23,12 +24,14 @@ public class NewsController {
 
 
     @GetMapping(value = "/news")
-    public List<News> getMainNews() {
-        return newsService.getNewsFromSection("Главное");
+    public List<NewsDTO> getMainNews() {
+        List<News> news = newsService.getNewsFromSection("Главные новости");
+        NewsDTO newsDTO = new NewsDTO();
+        return newsDTO.newsToDTO(news);
     }
 
     @GetMapping(value = "/news/{section}")
-    public List<News> getNewsFromSection(@PathVariable(value = "section") String section) {
+    public List<NewsDTO> getNewsFromSection(@PathVariable(value = "section") String section) {
         List<News> news;
         switch (section) {
             case "politics":
@@ -46,8 +49,8 @@ public class NewsController {
             default:
                 news = null;
         }
-
-        return news;
+        NewsDTO newsDTO = new NewsDTO();
+        return newsDTO.newsToDTO(news);
 
     }
 

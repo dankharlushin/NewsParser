@@ -8,6 +8,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import ru.sbrf.finalproject.java.news.models.ExchangeRate;
 import ru.sbrf.finalproject.java.news.services.rates.ExchangeRateService;
+import ru.sbrf.finalproject.java.news.urlcontainer.UrlContainer;
 
 import java.io.IOException;
 
@@ -15,19 +16,22 @@ import java.io.IOException;
 public class ExchangeRateParser {
 
     @Autowired
-    public ExchangeRateService exchangeRateService;
+    private ExchangeRateService exchangeRateService;
+
+    @Autowired
+    private UrlContainer urlContainer;
 
     @Scheduled(fixedDelay = 10000)
     public void parseExchangeRate() {
-        String url = "https://www.cbr.ru/currency_base/daily/";
+        String url = urlContainer.getUrl("ratesUrl");
         try {
             Document doc = Jsoup.connect(url)
                     .userAgent("Chrome")
                     .timeout(5000)
-                    .referrer("https://google.com").proxy("proxy.kpfu.ru", 8080)
+                    .referrer("https://google.com")//.proxy("proxy.kpfu.ru", 8080)
                     .get();
 
-            Elements exRates = doc.getElementsByClass("data");  //Таблица
+            Elements exRates = doc.getElementsByClass("data");
             Elements rows = exRates.select("tr"); //строки
 
             for (int i = 1; i < rows.size(); i++) {
@@ -40,11 +44,6 @@ public class ExchangeRateParser {
                     exchangeRateService.update(exchangeRate);
                 }
             }
-            /*ExchangeRate exchangeRate = new ExchangeRate();
-            exchangeRate.setCurrency(rows.get(2).select("td").get(3).text());
-            exchangeRate.setRate(Double
-                    .parseDouble(rows.get(2).select("td").get(4).text().replaceAll(",",".")));
-            exchangeRateService.update(exchangeRate);*/
         } catch (IOException e) {
             e.printStackTrace();
         }

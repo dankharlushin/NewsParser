@@ -1,23 +1,40 @@
 package ru.sbrf.finalproject.java.news.dto;
 
-import com.sun.istack.NotNull;
-import lombok.Data;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import lombok.Data;
+import ru.sbrf.finalproject.java.news.models.WeatherForecast;
+
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 public class WeatherForecastDTO {
 
-    private Long id;
-
+    @NotNull
     private String city;
-
-    private LocalDate date;
+    @NotNull
+    private String date;
 
     private String temperature;
 
     private String weather;
+
+    public List<WeatherForecastDTO> toDTO(List<WeatherForecast> forecasts) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        List<WeatherForecastDTO> forecastDTO = new ArrayList<>();
+        for (WeatherForecast wf : forecasts) {
+            WeatherForecastDTO wfDTO = new WeatherForecastDTO();
+            wfDTO.setCity(wf.getCity());
+            wfDTO.setDate(wf.getDate().format(formatter));
+            wfDTO.setTemperature(wf.getTemperature());
+            wfDTO.setWeather(wf.getWeather());
+            forecastDTO.add(wfDTO);
+        }
+
+        return forecastDTO;
+    }
+
 }

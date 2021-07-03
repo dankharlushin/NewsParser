@@ -14,11 +14,11 @@ public class UrlContainer {
 
     public UrlContainer() {
         this.container = new HashMap<>();
-        this.container.put("mainNewsUrl", "https://rt.rbc.ru/");
-        this.container.put("politicsNewsUrl", "https://ria.ru/politics/");
-        this.container.put("economyNewsUrl", "https://ria.ru/economy/");
-        this.container.put("societyNewsUrl", "https://ria.ru/society/");
-        this.container.put("incidentsNewsUrl", "https://ria.ru/incidents/");
+        this.container.put("Главные новости", "https://rt.rbc.ru/");
+        this.container.put("Политика", "https://ria.ru/politics/");
+        this.container.put("Экономика", "https://ria.ru/economy/");
+        this.container.put("Общество", "https://ria.ru/society/");
+        this.container.put("Происшествия", "https://ria.ru/incidents/");
         this.container.put("ratesUrl", "https://www.cbr.ru/currency_base/daily/");
         this.container.put("forecastUrl", "https://yandex.ru/pogoda/");
     }

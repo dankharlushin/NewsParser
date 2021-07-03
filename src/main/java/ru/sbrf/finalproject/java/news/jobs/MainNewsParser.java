@@ -26,13 +26,13 @@ public class MainNewsParser {
 
     @Scheduled(fixedDelay = 10000)
     public void parseNewNews() {
-        //String url = urlContainer.getUrl("mainNewsUrl");
-
+        String section = "Главные новости";
+        String url = urlContainer.getUrl(section);
         try {
-            Document doc = Jsoup.connect(mainNewsUrl)
+            Document doc = Jsoup.connect(url)
                     .userAgent("Chrome")
                     .timeout(5000)
-                    .referrer("https://google.com").proxy("proxy.kpfu.ru", 8080)
+                    .referrer("https://google.com")//.proxy("proxy.kpfu.ru", 8080)
                     .get();
 
             Elements news = doc.getElementsByClass("main__feed js-main-reload-item");
@@ -41,7 +41,7 @@ public class MainNewsParser {
                 if (!newsService.isExist(newsTitle)) {
                     News mainNews = new News();
                     mainNews.setTitle(newsTitle);
-                    mainNews.setSection("Главное");
+                    mainNews.setSection(section);
                     mainNews.setUrl(el.getElementsByTag("a").first().attr("href"));
                     newsService.save(mainNews);
                 }

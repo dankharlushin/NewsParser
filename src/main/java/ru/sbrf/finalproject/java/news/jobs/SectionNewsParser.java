@@ -33,18 +33,18 @@ public class SectionNewsParser {
 
     @Scheduled(fixedDelay = 10000)
     public void parseNewSectionNews() {
-        List<String> urls = Arrays.asList(politicSectionUrl,
-                economicSectionUrl,
-                societySectionUrl,
-                incidentsSectionUrl);
+        List<String> sections = Arrays.asList("Политика",
+                "Экономика",
+                "Общество",
+                "Происшествия");
 
-        for (String url: urls) {
-            String section = SectionNewsParser.getSection(url);
+        for (String sec: sections) {
+            String url = urlContainer.getUrl(sec);
             try {
                 Document doc = Jsoup.connect(url)
                         .userAgent("Chrome")
                         .timeout(5000)
-                        .referrer("https://google.com").proxy("proxy.kpfu.ru", 8080)
+                        .referrer("https://google.com")//.proxy("proxy.kpfu.ru", 8080)
                         .get();
 
                 Elements news = doc.getElementsByClass("list-item");
@@ -55,7 +55,7 @@ public class SectionNewsParser {
                     if (!newsService.isExist(newsTitle)) {
                         News sectionNews = new News();
                         sectionNews.setTitle(newsTitle);
-                        sectionNews.setSection(section);
+                        sectionNews.setSection(sec);
                         sectionNews.setUrl(el.getElementsByTag("a").first().attr("href"));
                         newsService.save(sectionNews);
                     }
