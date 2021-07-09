@@ -1,5 +1,8 @@
 package ru.sbrf.finalproject.java.news.services.userdetails;
 
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,7 +23,10 @@ import java.util.HashSet;
 import java.util.List;
 
 @Service
+@Slf4j
 public class UserService implements UserDetailsService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -65,6 +71,7 @@ public class UserService implements UserDetailsService {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             user.setEnabled(true);
             userRepository.save(user);
+            LOGGER.info("A new user with username: \"" + user.getUsername() + "\" has been registered");
             return true;
         }
 
@@ -72,7 +79,9 @@ public class UserService implements UserDetailsService {
 
     public boolean deleteUser(Long id) {
         if (userRepository.findById(id).isPresent()) {
+            String username = userRepository.getUserById(id).getUsername();
             userRepository.deleteById(id);
+            LOGGER.info("User with username: \"" + username + "\" has been deleted");
             return true;
         }
         else {

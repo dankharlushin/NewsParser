@@ -1,10 +1,13 @@
 package ru.sbrf.finalproject.java.news.services.weather;
 
 import com.ibm.icu.text.Transliterator;
+import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.sbrf.finalproject.java.news.exceptions.CityNotFoundException;
@@ -19,15 +22,15 @@ import java.time.LocalDate;
 import java.util.Locale;
 
 @Service
+@Slf4j
 public class WeatherForecastServiceImpl implements WeatherForecastService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(WeatherForecastServiceImpl.class);
 
-    public static final String weatherUrl = "https://yandex.ru/pogoda/";
+    private static final String weatherUrl = "https://yandex.ru/pogoda/";
 
     @Autowired
     private WeatherForecastRepository weatherForecastRepository;
-
-
 
     @Override
     public WeatherForecast getForecast(String city, LocalDate date) throws CityNotFoundException, NotSupportedDateException {
@@ -41,6 +44,7 @@ public class WeatherForecastServiceImpl implements WeatherForecastService {
                         .timeout(5000)
                         .referrer("https://google.com")//.proxy("proxy.kpfu.ru", 8080)
                         .get();
+                LOGGER.info("Connected to forecast url for city: " + city + " and date: " + date);
                 Elements elements = doc.getElementsByClass("card");
                 for (Element el: elements) {
                     if (el.getElementsByAttribute("data-anchor").size() != 0) {
@@ -65,6 +69,7 @@ public class WeatherForecastServiceImpl implements WeatherForecastService {
                     }
                 }
             } catch (IOException e) {
+                LOGGER.error("Unable to connect to forecast url for city: " + city + " and date: " + date);
                 throw new CityNotFoundException();
             }
 
@@ -73,12 +78,14 @@ public class WeatherForecastServiceImpl implements WeatherForecastService {
 
     @Override
     public WeatherForecast updateForecast(WeatherForecast forecast) {
-        if (!weatherForecastRepository.existsByCityAndDate(forecast.getCity(), forecast.getDate())) {
+        if (!weatherForecastRepository
+                .existsByCityAndDate(forecast.getCity(), forecast.getDate())) {
             weatherForecastRepository.save(forecast);
             return forecast;
         }
         else {
-            return weatherForecastRepository.getWeatherForecastsByCityAndDate(forecast.getCity(), forecast.getDate());
+            return weatherForecastRepository
+                    .getWeatherForecastsByCityAndDate(forecast.getCity(), forecast.getDate());
         }
 
     }

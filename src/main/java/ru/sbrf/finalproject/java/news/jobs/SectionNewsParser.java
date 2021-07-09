@@ -1,9 +1,12 @@
 package ru.sbrf.finalproject.java.news.jobs;
 
+import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -16,13 +19,15 @@ import java.util.Arrays;
 import java.util.List;
 
 @Component
+@Slf4j
 public class SectionNewsParser {
 
-    public static final String politicSectionUrl = "https://ria.ru/politics/";
-    public static final String economicSectionUrl = "https://ria.ru/economy/";
-    public static final String societySectionUrl = "https://ria.ru/society/";
-    public static final String incidentsSectionUrl = "https://ria.ru/incidents/";
+//    public static final String politicSectionUrl = "https://ria.ru/politics/";
+//    public static final String economicSectionUrl = "https://ria.ru/economy/";
+//    public static final String societySectionUrl = "https://ria.ru/society/";
+//    public static final String incidentsSectionUrl = "https://ria.ru/incidents/";
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(SectionNewsParser.class);
 
     @Autowired
     NewsService newsService;
@@ -46,6 +51,7 @@ public class SectionNewsParser {
                         .timeout(5000)
                         .referrer("https://google.com")//.proxy("proxy.kpfu.ru", 8080)
                         .get();
+                LOGGER.info("Connected to url for section: " + sec);
 
                 Elements news = doc.getElementsByClass("list-item");
                 for (Element el: news) {
@@ -62,12 +68,12 @@ public class SectionNewsParser {
                 }
 
             } catch (IOException e) {
-                e.printStackTrace();
+                LOGGER.error("Unable to connect to url of section: " + sec);
             }
         }
     }
 
-    public static String getSection(String url) {
+/*    public static String getSection(String url) {
         String section = null;
         switch (url) {
             case politicSectionUrl:
@@ -85,6 +91,6 @@ public class SectionNewsParser {
         }
 
         return section;
-    }
+    }*/
 
 }
