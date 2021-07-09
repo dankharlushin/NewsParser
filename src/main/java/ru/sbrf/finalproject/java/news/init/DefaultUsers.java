@@ -27,8 +27,8 @@ public class DefaultUsers implements InitializingBean {
     public void afterPropertiesSet() throws Exception {
             User user = new User();
             user.setRoles(Collections.singleton(roleRepository.save(new Role(1L, "ROLE_ADMIN"))));
-            user.setUsername("1");
-            user.setPassword(passwordEncoder.encode("1"));
+            user.setUsername("admin");
+            user.setPassword(passwordEncoder.encode("admin"));
             user.setEnabled(true);
             userRepository.save(user);
     }
